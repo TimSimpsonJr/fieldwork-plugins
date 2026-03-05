@@ -1,6 +1,6 @@
 {
-  "name": "claude-plugins",
-  "description": "Personal Claude Code plugin marketplace",
+  "name": "tim-plugins",
+  "description": "Tim Simpson's Claude Code plugins",
   "version": "1.0.0",
   "author": {
     "name": "Tim Simpson"
