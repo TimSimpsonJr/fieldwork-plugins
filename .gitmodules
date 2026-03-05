@@ -1,0 +1,3 @@
+[submodule "research-workflow"]
+	path = research-workflow
+	url = https://github.com/TimSimpsonJr/research-workflow.git
