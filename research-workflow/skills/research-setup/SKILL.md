@@ -59,7 +59,7 @@ If entering a path, provide the absolute path (e.g., C:\Users\you\Documents\My V
 - Create the template structure using Bash:
 ```bash
 mkdir -p "PARENT/Research Vault/Inbox"
-mkdir -p "PARENT/Research Vault/Areas"
+mkdir -p "PARENT/Research Vault/Projects"
 mkdir -p "PARENT/Research Vault/Sources"
 mkdir -p "PARENT/Research Vault/Resources"
 mkdir -p "PARENT/Research Vault/assets"
@@ -74,7 +74,7 @@ tags: [index]
 
 # Vault Index
 
-## Areas
+## Projects
 
 - [[Inbox]] — unsorted incoming notes
 
@@ -462,7 +462,7 @@ Use AskUserQuestion:
 Do you have a SearXNG instance running?
 
 SearXNG provides private web search for the research pipeline's full tier.
-- If you have one: provide the URL (e.g., http://localhost:8080)
+- If you have one: provide the URL (e.g., http://localhost:8888)
 - If not: the base tier will use Claude's built-in WebSearch tool instead
 
 Enter the URL, or type "skip" to skip.
@@ -617,7 +617,36 @@ Vault index built successfully.
 
 ---
 
-## Step 11: Summary
+## Step 11: Optional -- install metadata-hide CSS snippet
+
+The research pipeline writes a few diagnostic frontmatter fields to every note it generates (`hop_genealogy`, `research_run`, `write_model`). They're useful for debugging and telemetry but clutter Obsidian's Properties panel. A small CSS snippet hides them in the UI while leaving them fully searchable in the file.
+
+Use **AskUserQuestion**:
+```
+Want to hide the diagnostic frontmatter fields (hop_genealogy, research_run, write_model)
+in Obsidian's Properties panel? They'll still be searchable, just not displayed.
+
+Install CSS snippet? [yes / no]
+```
+
+**If `yes`:**
+
+Copy the snippet into the vault's snippets directory. Use Bash:
+```bash
+mkdir -p "VAULT_ROOT/.obsidian/snippets"
+cp "{{SCRIPTS_DIR}}/assets/research-metadata-hide.css" "VAULT_ROOT/.obsidian/snippets/research-metadata-hide.css"
+```
+
+Replace `VAULT_ROOT` with the actual vault path. Then tell the user:
+```
+Snippet copied. Enable it in Obsidian -> Settings -> Appearance -> CSS snippets -> toggle "research-metadata-hide".
+```
+
+**If `no`:** Skip silently and continue to the summary.
+
+---
+
+## Step 12: Summary
 
 Print a clear summary of everything that was configured:
 

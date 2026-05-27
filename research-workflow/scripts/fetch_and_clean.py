@@ -28,6 +28,8 @@ from urllib.parse import urlparse
 
 import requests
 
+from fetch_playwright import fetch_via_playwright
+
 # ──────────────────────────────────────────────
 # Constants
 # ──────────────────────────────────────────────
@@ -36,6 +38,7 @@ DEFAULT_CACHE_DIR = Path(__file__).parent.parent / ".cache" / "fetch"
 DEFAULT_TTL_DAYS = 7
 DEFAULT_FETCH_DELAY = 1.0  # seconds between fetches
 MAX_CONTENT_CHARS = 50_000
+MIN_USEFUL_CONTENT_CHARS = 200  # below this, content is likely empty/blocked
 JINA_BASE_URL = "https://r.jina.ai"
 WAYBACK_API = "https://archive.org/wayback/available"
 
@@ -87,6 +90,25 @@ def url_cache_key(url: str) -> str:
 def normalize_url(url: str) -> str:
     """Normalize URL for deduplication: lowercase, strip trailing slash."""
     return url.rstrip("/").lower()
+
+
+def _normalize_url_items(urls: list) -> list[dict]:
+    """Normalize URL entries to dicts with a 'url' key.
+
+    Accepts mixed input:
+    - Strings: "https://example.com" -> {"url": "https://example.com"}
+    - Dicts with 'url' key: passed through as-is
+    """
+    result: list[dict] = []
+    for item in urls:
+        if isinstance(item, str):
+            result.append({"url": item})
+        elif isinstance(item, dict) and "url" in item:
+            result.append(item)
+        else:
+            print(f"[fetch_and_clean] WARNING: skipping unrecognized URL entry: {item!r}",
+                  file=sys.stderr)
+    return result
 
 
 def deduplicate_urls(urls: list[dict]) -> list[dict]:
@@ -191,12 +213,17 @@ def fetch_via_wayback(url: str, api_key: str | None = None) -> tuple[str, str]:
 def fetch_url(url: str, jina_api_key: str | None = None) -> tuple[str, str, str]:
     """
     Fetch URL content with fallback strategy.
-    Returns (content, title, method) where method is "jina" or "wayback".
+    Returns (content, title, method) where method is "jina", "wayback", or "playwright".
     Raises RuntimeError if all methods fail.
+
+    Treats "succeeded but returned thin content" the same as "raised" — falls through
+    to the next fetcher.
     """
     try:
         content, title = fetch_via_jina(url, jina_api_key)
-        return content, title, "jina"
+        if len(content) >= MIN_USEFUL_CONTENT_CHARS:
+            return content, title, "jina"
+        print(f"[fetch_and_clean] Jina returned thin content ({len(content)} chars) for {url}; falling through", file=sys.stderr)
     except ValueError:
         raise  # SSRF validation errors should not be retried
     except Exception as exc:
@@ -204,7 +231,18 @@ def fetch_url(url: str, jina_api_key: str | None = None) -> tuple[str, str, str]
 
     try:
         content, title = fetch_via_wayback(url, jina_api_key)
-        return content, title, "wayback"
+        if len(content) >= MIN_USEFUL_CONTENT_CHARS:
+            return content, title, "wayback"
+        print(f"[fetch_and_clean] Wayback returned thin content ({len(content)} chars) for {url}; falling through", file=sys.stderr)
+    except Exception as exc:
+        print(f"[fetch_and_clean] Wayback fetch failed for {url}: {exc}", file=sys.stderr)
+
+    # Final fallback: Playwright (only if installed)
+    try:
+        content, title = fetch_via_playwright(url)
+        if len(content) >= MIN_USEFUL_CONTENT_CHARS:
+            return content, title, "playwright"
+        raise RuntimeError(f"Playwright returned thin content ({len(content)} chars)")
     except Exception as e:
         raise RuntimeError(f"All fetch methods failed for {url}") from e
 
@@ -281,7 +319,7 @@ def process_urls(
             failed.append({
                 "url": url,
                 "error": str(exc),
-                "attempts": ["jina", "wayback"],
+                "attempts": ["jina", "wayback", "playwright"],
             })
 
     return fetched, failed
@@ -321,7 +359,7 @@ def _fetch_single(url_item: dict, cache_dir: Path, ttl_days: int,
             "fetched_at": now, "word_count": len(content.split()),
         }, None
     except Exception as exc:
-        return None, {"url": url, "error": str(exc), "attempts": ["jina", "wayback"]}
+        return None, {"url": url, "error": str(exc), "attempts": ["jina", "wayback", "playwright"]}
 
 
 def process_urls_parallel(
@@ -368,7 +406,8 @@ def main() -> None:
         sys.exit(1)
 
     search_context: dict = json.loads(input_path.read_text(encoding="utf-8"))
-    urls = deduplicate_urls(search_context.get("selected_urls", []))
+    raw_urls = search_context.get("selected_urls", [])
+    urls = deduplicate_urls(_normalize_url_items(raw_urls))
 
     if args.dry_run:
         print(f"[fetch_and_clean] Dry run — {len(urls)} URL(s) would be fetched:", file=sys.stderr)
