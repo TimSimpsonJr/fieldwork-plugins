@@ -1,24 +1,17 @@
 {
-  "name": "fieldwork-plugins",
+  "name": "fieldwork",
   "owner": {
-    "name": "Tim Simpson"
+    "name": "Tim Simpson",
+    "email": "tim@timsimpsonjr.com"
   },
   "metadata": {
-    "description": "Personal Claude Code plugins",
-    "version": "1.3.0"
+    "description": "Fieldwork — investigative toolkit suite for Claude Code.",
+    "version": "2.0.0"
   },
   "plugins": [
-    {
-      "name": "research-workflow",
-      "source": "./research-workflow",
-      "description": "Deep research pipeline for Obsidian vaults. Multi-hop investigation with depth profiles, confidence-based replanning, T1-T4 source tiering, and batch / thread-pull modes.",
-      "version": "3.1.0"
-    },
-    {
-      "name": "obsidian-publisher",
-      "source": "./obsidian-publisher",
-      "description": "Pipeline from Obsidian vault research to blog posts and coordinated social media content.",
-      "version": "0.1.0"
-    }
+    { "name": "magpie", "source": { "source": "github", "repo": "TimSimpsonJr/magpie" }, "description": "Fieldwork: Magpie — investigations analysis toolkit." },
+    { "name": "research-workflow", "source": { "source": "github", "repo": "TimSimpsonJr/research-workflow" }, "description": "Fieldwork: Research — deep web-research pipeline." },
+    { "name": "librarian", "source": { "source": "github", "repo": "TimSimpsonJr/librarian" }, "description": "Fieldwork: Librarian — structured notes for follow-up & browsing." },
+    { "name": "prose-craft", "source": { "source": "github", "repo": "TimSimpsonJr/prose-craft" }, "description": "Fieldwork: Prose Craft — outward-facing prose + review gate." }
   ]
 }

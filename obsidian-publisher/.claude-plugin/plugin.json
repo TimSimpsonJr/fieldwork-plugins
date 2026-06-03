@@ -1,8 +1,0 @@
-{
-  "name": "obsidian-publisher",
-  "version": "0.1.0",
-  "description": "Pipeline from Obsidian vault research to blog posts and coordinated social media content",
-  "author": {
-    "name": "Tim Simpson"
-  }
-}
