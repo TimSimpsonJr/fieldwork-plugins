@@ -6,10 +6,10 @@
   },
   "metadata": {
     "description": "Fieldwork — investigative toolkit suite for Claude Code.",
-    "version": "2.0.1"
+    "version": "2.0.2"
   },
   "plugins": [
-    { "name": "magpie", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/magpie.git" }, "description": "Fieldwork: Magpie — investigations analysis toolkit." },
+    { "name": "magpie", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/magpie.git" }, "description": "Fieldwork: Magpie — investigations analysis toolkit. Requires the Librarian plugin: install Librarian from this marketplace too." },
     { "name": "research-workflow", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/research-workflow.git" }, "description": "Fieldwork: Research — deep web-research pipeline." },
     { "name": "librarian", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/librarian.git" }, "description": "Fieldwork: Librarian — structured notes for follow-up & browsing." },
     { "name": "prose-craft", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/prose-craft.git" }, "description": "Fieldwork: Prose Craft — outward-facing prose + review gate." }
