@@ -71,7 +71,7 @@ plugin with `no-matching-tag`.
 - Top-level array of marketplace names, declared in the **root**
   `marketplace.json`.
 - **Not needed in Fieldwork.** `librarian` is itself a member of *this*
-  marketplace, so `magpie → librarian` and `research-workflow → librarian`
+  marketplace, so `magpie → librarian` and `researcher → librarian`
   resolve within the same marketplace when the members are installed via
   `fieldwork`.
 - It **would** be needed if a member depended on a plugin that lives in a
@@ -94,7 +94,7 @@ Missing dependencies get (re)resolved by any of:
 **Important caveat:** a dependency is only auto-resolved if **its marketplace is
 already added**. Dependencies whose marketplace the user has *not* added are
 left **unresolved**. Because `librarian` is a member of `fieldwork`, adding the
-`fieldwork` marketplace and installing `magpie` (or `research-workflow`) pulls
+`fieldwork` marketplace and installing `magpie` (or `researcher`) pulls
 `librarian` automatically.
 
 Documented co-install fallback if a dependency does not pull automatically:

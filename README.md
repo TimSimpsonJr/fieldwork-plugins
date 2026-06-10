@@ -15,12 +15,12 @@ The four members map onto the investigative lifecycle —
 
 | Member | Repo | Role |
 |--------|------|------|
-| `research-workflow` | `TimSimpsonJr/research-workflow` | Deep web-research pipeline — gathers and structures source material. |
+| `researcher` | `TimSimpsonJr/researcher` | Deep web-research pipeline — gathers and structures source material. |
 | `magpie` | `TimSimpsonJr/magpie` | Investigations analysis toolkit — works the gathered material into findings. |
 | `librarian` | `TimSimpsonJr/librarian` | Structured notes for follow-up and browsing — keeps threads organized for later. |
 | `prose-craft` | `TimSimpsonJr/prose-craft` | Outward-facing prose plus a review gate — turns findings into publishable writing. |
 
-`magpie` and `research-workflow` depend on `librarian`, which is itself a member
+`magpie` and `researcher` depend on `librarian`, which is itself a member
 of this marketplace, so the dependency resolves within Fieldwork on install.
 
 ## Usage
@@ -32,7 +32,7 @@ Add the marketplace, then install any member:
 /plugin install magpie@fieldwork
 ```
 
-Swap `magpie` for `research-workflow`, `librarian`, or `prose-craft` to install
+Swap `magpie` for `researcher`, `librarian`, or `prose-craft` to install
 a different member. Installing a member auto-installs its declared dependencies
 (for example, installing `magpie` pulls `librarian`). If a dependency does not
 pull automatically, install it directly:
