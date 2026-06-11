@@ -178,14 +178,19 @@ grep -rnE "data/prose-craft|\.claude/data|CLAUDE_PLUGIN_ROOT|learning/|registers
 6. Run the repo's own tests: `pytest -q` (from prose-craft repo) → pass; update any test asserting the old name.
 7. Commit on `chore/rename-to-copydesk`.
 
-### Task 3.2: Preserve learning data + registers
-**Steps:** Per Task 0.3's finding: if the data path keys on the plugin name, copy `…/data/prose-craft/` (incl. custom registers like `dystopian-fiction`) to the new `…/data/copydesk/` location; otherwise confirm it travels with the reinstall. Never delete the old data until the verify gate passes.
-**Verify:** the `dystopian-fiction` register + any learning snapshots are present at the path the renamed skill will read.
+### Task 3.2: Preserve learning data + registers (COPY the live install — never reinstall from repo)
+**Finding (Task 0.3, confirmed):** the live data lives INSIDE the install dir `~/.claude/plugins/cache/local/prose-craft/2.0.0/` — `learning/` (accumulator.md = 23-obs file, `snapshots/` incl. `manifest.json`, `splits.md`, `ablation-log.md`, `bootstrap-run.md`) and `registers/` (advocacy.md, personal.md, dystopian-fiction.md). The **repo's** `learning/`+`registers/` are EMPTY templates. The skill reads `${CLAUDE_PLUGIN_ROOT}/learning` + `/registers` (install-dir-relative, NOT keyed on the name string). `dotfiles-claude/claude/data/prose-craft/` is a version-controlled BACKUP of this live data. A prior handoff explicitly warns: NEVER do a naive full reinstall — it overwrites live registers/accumulator with the repo's empty templates.
+**Steps:**
+1. Create `~/.claude/plugins/cache/local/copydesk/3.0.0/` by **copying the entire old install dir** `…/local/prose-craft/2.0.0/` into it (carries `learning/` + `registers/` intact).
+2. Apply the Task 3.1 rename edits **on top of the copy** (rename skill dirs, set `plugin.json` name/version, internal refs). Do NOT overwrite `learning/`/`registers/` from the repo.
+3. Rename the dotfiles backup dir `dotfiles-claude/claude/data/prose-craft/` → `…/data/copydesk/` (keeps the backup convention consistent).
+4. Keep the old `…/local/prose-craft/2.0.0/` dir untouched until the verify gate passes (it is the rollback source).
+**Verify:** `~/.claude/plugins/cache/local/copydesk/3.0.0/registers/dystopian-fiction.md`, `…/learning/accumulator.md` (the 23-obs file, not the empty template), and `…/learning/snapshots/manifest.json` all exist.
 
 ### Task 3.3: Update local registries (live + dotfiles)
 **Files:** `~/.claude/plugins/installed_plugins.json`, `~/.claude/settings.json`, `dotfiles-claude/claude/settings.json`, the local plugin cache dir.
 **Steps:**
-1. Rebuild/relocate the cache install as `copydesk@local` (mirror the `prose-craft@local` entry: new `installPath`, `version: 3.0.0`).
+1. The new `copydesk@local` install dir was created by **copying** the old install (Task 3.2) — do NOT reinstall from the repo. Point the registry at it.
 2. `installed_plugins.json`: rename key `prose-craft@local` → `copydesk@local`.
 3. Both `settings.json` copies: `enabledPlugins["prose-craft@prose-craft"]` → `copydesk@copydesk`; `extraKnownMarketplaces.prose-craft` → `copydesk` (+ `.git` URL → `…/copydesk.git`).
 4. **Verify:** `grep -rn "prose-craft" ~/.claude/settings.json ~/.claude/plugins/installed_plugins.json` → empty.
