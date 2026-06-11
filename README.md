@@ -8,12 +8,7 @@ It is built for people who end up with more documents than time: journalists, FO
 
 ## The workflow
 
-```mermaid
-flowchart LR
-    R[Researcher<br/>gather sources] --> L[(Librarian<br/>linked notes)]
-    M[Magpie<br/>analyze documents] --> L
-    L --> C[Copydesk<br/>write it up]
-```
+**Researcher** → **Magpie** → **Librarian** (the shared notes layer) → **Copydesk**
 
 Researcher and Magpie both file through **Librarian**, the shared notes layer, so a web pass and a document pass land in one consistent, linked set of notes instead of three filing styles. **Copydesk** turns those findings into publishable writing.
 
