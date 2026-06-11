@@ -4,7 +4,7 @@
 
 Fieldwork is a suite of Claude Code plugins for investigative work: four tools that carry a story from a raw question to a finished, sourced piece. Research the web, work through the documents, file what you find as linked notes, then write it up in your own voice. Each plugin does one job and hands off cleanly to the next, and any of them works on its own.
 
-It is built for people who end up with more documents than time: journalists, FOIA requesters, OSINT researchers, anyone digging through records for a story.
+It is built for people who end up with more documents than time: journalists, OSINT researchers, and anyone who files public-records requests in service of a bigger story.
 
 ## The workflow
 
@@ -21,7 +21,7 @@ Turns any topic, or a batch of fifty, into cited, cross-linked notes in your Obs
 The documents-and-data half. Turn a FOIA release or a messy spreadsheet into findings you can stand behind: counted, cited to the exact page, swept for PII, and checked for bad redactions, all on your own machine.
 
 ### [Librarian](https://github.com/TimSimpsonJr/librarian)
-The shared output layer. Files findings as clean, interlinked Markdown notes, portable by default and Obsidian-aware when a vault is present. It installs automatically alongside Researcher and Magpie.
+The shared output layer. Keeps your Obsidian vault organized: it files findings as classified, tagged, cited notes, placed by your folder conventions and cross-linked with `[[wikilinks]]`, with a full-text index so a second pass updates a note instead of duplicating it. No vault? It writes portable Markdown and CSV instead. Researcher and Magpie both require it, so install it from the same marketplace.
 
 ### [Copydesk](https://github.com/TimSimpsonJr/copydesk)
 Turns findings into publishable writing in your own voice, with a review gate that catches AI tells and a learning loop that sharpens from your edits.
@@ -35,7 +35,7 @@ You need [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Pytho
 /plugin install magpie@fieldwork
 ```
 
-Swap `magpie` for `researcher`, `librarian`, or `copydesk`. Installing Magpie or Researcher pulls in Librarian automatically, since it is their shared output layer. Each plugin has its own setup step and its own README with the details.
+Swap `magpie` for `researcher`, `librarian`, or `copydesk`. Researcher and Magpie both require Librarian (their shared output layer), so install it from the same marketplace too. Each plugin has its own setup step and its own README with the details.
 
 > [!NOTE]
 > **What you need:** Claude Code and Python 3.12. The heavier extras (local search, OCR, transcription, entity graphs) are optional and specific to a plugin, and Claude installs them for you when a task needs them. Nothing here needs a separate API key or a paid service.
@@ -49,7 +49,7 @@ Swap `magpie` for `researcher`, `librarian`, or `copydesk`. Installing Magpie or
 |--------|------|------------|
 | [Researcher](https://github.com/TimSimpsonJr/researcher) | gather sources into cited notes | Librarian |
 | [Magpie](https://github.com/TimSimpsonJr/magpie) | analyze FOIA/data into findings | Librarian |
-| [Librarian](https://github.com/TimSimpsonJr/librarian) | file findings as linked notes (shared layer) | none |
+| [Librarian](https://github.com/TimSimpsonJr/librarian) | organize findings into your Obsidian vault (shared layer) | none |
 | [Copydesk](https://github.com/TimSimpsonJr/copydesk) | write findings up in your voice | none |
 
 This repository is a pure-pointer marketplace: it holds no plugin source, just a manifest pointing at each plugin's own repo. The schema and dependency-resolution details live in [NOTES.md](./NOTES.md).

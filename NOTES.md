@@ -97,6 +97,8 @@ left **unresolved**. Because `librarian` is a member of `fieldwork`, adding the
 `fieldwork` marketplace and installing `magpie` (or `researcher`) pulls
 `librarian` automatically.
 
+> **In practice this auto-pull has proven unreliable.** Treat Librarian as a plugin you install explicitly (`/plugin install librarian@fieldwork`). Researcher and Magpie declare it as a required dependency, but do not assume Claude Code will pull it in for the user.
+
 Documented co-install fallback if a dependency does not pull automatically:
 
 ```

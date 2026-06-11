@@ -11,7 +11,7 @@
   "plugins": [
     { "name": "magpie", "source": { "source": "github", "repo": "TimSimpsonJr/magpie" }, "description": "Analyze FOIA releases and data dumps into cited, PII-swept findings, all on your own machine. Part of the Fieldwork suite." },
     { "name": "researcher", "source": { "source": "github", "repo": "TimSimpsonJr/researcher" }, "description": "Research any topic, or a whole batch, into cited, cross-linked notes in your own Obsidian vault. Part of the Fieldwork suite." },
-    { "name": "librarian", "source": { "source": "github", "repo": "TimSimpsonJr/librarian" }, "description": "File your findings as structured, interlinked Markdown notes; portable by default, Obsidian-aware when a vault is present. Part of the Fieldwork suite." },
+    { "name": "librarian", "source": { "source": "github", "repo": "TimSimpsonJr/librarian" }, "description": "Keeps your Obsidian vault organized: files findings as classified, tagged, wikilinked notes by your conventions, with a full-text index so re-runs update instead of duplicate. Portable Markdown without a vault. Part of the Fieldwork suite." },
     { "name": "prose-craft", "source": { "source": "github", "repo": "TimSimpsonJr/prose-craft" }, "description": "Fieldwork: Prose Craft — outward-facing prose + review gate." }
   ]
 }
