@@ -1,60 +1,64 @@
-# Fieldwork
+# Fieldwork Plugins
 
-Fieldwork is an investigative toolkit suite for Claude Code: a family of plugins
-that carry a topic from raw web research through analysis, follow-up notes, and
-finally outward-facing writing.
+![License](https://img.shields.io/badge/license-MIT-blue) ![Plugins](https://img.shields.io/badge/plugins-4-informational) ![Python](https://img.shields.io/badge/python-3.12-3776AB) ![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-8A3FFC) ![Status](https://img.shields.io/badge/status-beta-orange)
 
-This repository is a **pure-pointer marketplace**. It contains no plugin source.
-Each member is referenced by its own upstream GitHub repo, so every plugin stays
-a single source of truth in its own repository.
+Fieldwork is a suite of Claude Code plugins for investigative work: four tools that carry a story from a raw question to a finished, sourced piece. Research the web, work through the documents, file what you find as linked notes, then write it up in your own voice. Each plugin does one job and hands off cleanly to the next, and any of them works on its own.
 
-## Members
+It is built for people who end up with more documents than time: journalists, FOIA requesters, OSINT researchers, anyone digging through records for a story.
 
-The four members map onto the investigative lifecycle —
-**Research → Magpie → Librarian → Prose Craft**:
+## The workflow
 
-| Member | Repo | Role |
-|--------|------|------|
-| `researcher` | `TimSimpsonJr/researcher` | Deep web-research pipeline — gathers and structures source material. |
-| `magpie` | `TimSimpsonJr/magpie` | Investigations analysis toolkit — works the gathered material into findings. |
-| `librarian` | `TimSimpsonJr/librarian` | Structured notes for follow-up and browsing — keeps threads organized for later. |
-| `prose-craft` | `TimSimpsonJr/prose-craft` | Outward-facing prose plus a review gate — turns findings into publishable writing. |
+```mermaid
+flowchart LR
+    R[Researcher<br/>gather sources] --> L[(Librarian<br/>linked notes)]
+    M[Magpie<br/>analyze documents] --> L
+    L --> C[Copydesk<br/>write it up]
+```
 
-`magpie` and `researcher` depend on `librarian`, which is itself a member
-of this marketplace, so the dependency resolves within Fieldwork on install.
+Researcher and Magpie both file through **Librarian**, the shared notes layer, so a web pass and a document pass land in one consistent, linked set of notes instead of three filing styles. **Copydesk** turns those findings into publishable writing.
 
-## Usage
+## The plugins
 
-Add the marketplace, then install any member:
+### [Researcher](https://github.com/TimSimpsonJr/researcher)
+Turns any topic, or a batch of fifty, into cited, cross-linked notes in your Obsidian vault. Confidence-gated web search with source-credibility tiering, and no separate API key to wire up.
+
+### [Magpie](https://github.com/TimSimpsonJr/magpie)
+The documents-and-data half. Turn a FOIA release or a messy spreadsheet into findings you can stand behind: counted, cited to the exact page, swept for PII, and checked for bad redactions, all on your own machine.
+
+### [Librarian](https://github.com/TimSimpsonJr/librarian)
+The shared output layer. Files findings as clean, interlinked Markdown notes, portable by default and Obsidian-aware when a vault is present. It installs automatically alongside Researcher and Magpie.
+
+### [Copydesk](https://github.com/TimSimpsonJr/copydesk)
+Turns findings into publishable writing in your own voice, with a review gate that catches AI tells and a learning loop that sharpens from your edits.
+
+## Quick start
+
+You need [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Python 3.12. Add the marketplace, then install whichever plugin you want:
 
 ```
 /plugin marketplace add TimSimpsonJr/fieldwork-plugins
 /plugin install magpie@fieldwork
 ```
 
-Swap `magpie` for `researcher`, `librarian`, or `prose-craft` to install
-a different member. Installing a member auto-installs its declared dependencies
-(for example, installing `magpie` pulls `librarian`). If a dependency does not
-pull automatically, install it directly:
+Swap `magpie` for `researcher`, `librarian`, or `copydesk`. Installing Magpie or Researcher pulls in Librarian automatically, since it is their shared output layer. Each plugin has its own setup step and its own README with the details.
 
-```
-/plugin install librarian@fieldwork
-```
+> [!NOTE]
+> **What you need:** Claude Code and Python 3.12. The heavier extras (local search, OCR, transcription, entity graphs) are optional and specific to a plugin, and Claude installs them for you when a task needs them. Nothing here needs a separate API key or a paid service.
 
-## Notes for contributors
+> [!IMPORTANT]
+> **Your data & privacy:** Fieldwork runs locally, inside your own Claude Code session, and your documents and notes stay on your machine. Magpie adds a PII sweep and redaction checks for sensitive material; Librarian and Copydesk run no external service of their own. Each plugin's README spells out exactly what touches the network and what stays local.
 
-- **No vendoring.** Members are referenced by their own repos via GitHub
-  sources in `.claude-plugin/marketplace.json`. Do not add plugin source to this
-  repo. To change a plugin, change its upstream repo.
-- **`obsidian-publisher` was dropped** in favor of `prose-craft`, which now
-  covers Fieldwork's outward-writing role.
-- See [`NOTES.md`](./NOTES.md) for the `marketplace.json` schema, the
-  plugin-dependency resolution rules (tag-based versioning, bare-string vs.
-  pinned deps), and the cross-repo auto-pull behavior.
-- `tests/test_marketplace.py` is a stdlib-only smoke test over the manifest.
-  Run it with your Python interpreter, e.g. `python tests/test_marketplace.py`
-  (prints `OK` on success).
+## How they fit together
+
+| Plugin | Role | Depends on |
+|--------|------|------------|
+| [Researcher](https://github.com/TimSimpsonJr/researcher) | gather sources into cited notes | Librarian |
+| [Magpie](https://github.com/TimSimpsonJr/magpie) | analyze FOIA/data into findings | Librarian |
+| [Librarian](https://github.com/TimSimpsonJr/librarian) | file findings as linked notes (shared layer) | none |
+| [Copydesk](https://github.com/TimSimpsonJr/copydesk) | write findings up in your voice | none |
+
+This repository is a pure-pointer marketplace: it holds no plugin source, just a manifest pointing at each plugin's own repo. The schema and dependency-resolution details live in [NOTES.md](./NOTES.md).
 
 ## License
 
-MIT
+MIT. Each plugin is MIT-licensed in its own repository.

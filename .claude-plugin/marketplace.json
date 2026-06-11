@@ -5,13 +5,13 @@
     "email": "tim@timsimpsonjr.com"
   },
   "metadata": {
-    "description": "Fieldwork — investigative toolkit suite for Claude Code.",
-    "version": "2.0.2"
+    "description": "Fieldwork: an investigative toolkit suite for Claude Code.",
+    "version": "2.1.0"
   },
   "plugins": [
-    { "name": "magpie", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/magpie.git" }, "description": "Fieldwork: Magpie — investigations analysis toolkit. Requires the Librarian plugin: install Librarian from this marketplace too." },
-    { "name": "researcher", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/researcher.git" }, "description": "Fieldwork: Research — deep web-research pipeline." },
-    { "name": "librarian", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/librarian.git" }, "description": "Fieldwork: Librarian — structured notes for follow-up & browsing." },
+    { "name": "magpie", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/magpie.git" }, "description": "Analyze FOIA releases and data dumps into cited, PII-swept findings, all on your own machine. Part of the Fieldwork suite." },
+    { "name": "researcher", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/researcher.git" }, "description": "Research any topic, or a whole batch, into cited, cross-linked notes in your own Obsidian vault. Part of the Fieldwork suite." },
+    { "name": "librarian", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/librarian.git" }, "description": "File your findings as structured, interlinked Markdown notes; portable by default, Obsidian-aware when a vault is present. Part of the Fieldwork suite." },
     { "name": "prose-craft", "source": { "source": "url", "url": "https://github.com/TimSimpsonJr/prose-craft.git" }, "description": "Fieldwork: Prose Craft — outward-facing prose + review gate." }
   ]
 }
