@@ -15,7 +15,7 @@ MARKETPLACE_PATH = (
     Path(__file__).resolve().parent.parent / ".claude-plugin" / "marketplace.json"
 )
 
-EXPECTED_MEMBERS = {"magpie", "researcher", "librarian", "prose-craft"}
+EXPECTED_MEMBERS = {"magpie", "researcher", "librarian", "copydesk"}
 
 
 def load_marketplace():
